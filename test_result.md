@@ -123,11 +123,14 @@ backend:
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "GET /api/leaderboard returns entries sorted by specified field"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: GET /api/leaderboard working correctly. Tested default sorting and sort_by=longest_streak&limit=50. Returns proper JSON array with leaderboard entries. All sorting parameters work as expected."
 
   - task: "Leaderboard API - POST"
     implemented: true
