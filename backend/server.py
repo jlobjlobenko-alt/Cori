@@ -109,7 +109,8 @@ async def create_leaderboard_entry(entry: LeaderboardCreate):
 @api_router.put("/leaderboard/{entry_id}", response_model=LeaderboardEntry)
 async def update_leaderboard_entry(entry_id: str, update: LeaderboardUpdate):
     """Update an existing leaderboard entry"""
-    existing = await db.leaderboard.find_one({"id": entry_id})
+    projection = {"_id": 0, "id": 1, "display_name": 1, "longest_streak": 1, "total_deliveries": 1, "weekly_earnings": 1, "monthly_rank": 1, "updated_at": 1}
+    existing = await db.leaderboard.find_one({"id": entry_id}, projection)
     if not existing:
         raise HTTPException(status_code=404, detail="Entry not found")
     
@@ -123,7 +124,7 @@ async def update_leaderboard_entry(entry_id: str, update: LeaderboardUpdate):
         
         await db.leaderboard.update_one({"id": entry_id}, {"$set": update_data})
     
-    updated = await db.leaderboard.find_one({"id": entry_id})
+    updated = await db.leaderboard.find_one({"id": entry_id}, projection)
     return LeaderboardEntry(**updated)
 
 @api_router.delete("/leaderboard/{entry_id}")
