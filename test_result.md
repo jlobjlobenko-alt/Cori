@@ -138,11 +138,14 @@ backend:
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "POST /api/leaderboard creates new entry with monthly rank calculation"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: POST /api/leaderboard working perfectly. Creates entries with correct monthly rank calculation (Bronze/Silver/Gold/Iron Courier based on score = deliveries + streak*10). All rank thresholds tested and working correctly."
 
   - task: "Leaderboard API - PUT"
     implemented: true
