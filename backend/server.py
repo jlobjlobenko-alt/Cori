@@ -88,7 +88,8 @@ async def health_check():
 async def get_leaderboard(sort_by: str = "longest_streak", limit: int = 50):
     """Get leaderboard sorted by specified field"""
     sort_field = sort_by if sort_by in ["longest_streak", "total_deliveries", "weekly_earnings"] else "longest_streak"
-    entries = await db.leaderboard.find().sort(sort_field, -1).limit(limit).to_list(limit)
+    projection = {"_id": 0, "id": 1, "display_name": 1, "longest_streak": 1, "total_deliveries": 1, "weekly_earnings": 1, "monthly_rank": 1, "updated_at": 1}
+    entries = await db.leaderboard.find({}, projection).sort(sort_field, -1).limit(limit).to_list(limit)
     return [LeaderboardEntry(**entry) for entry in entries]
 
 @api_router.post("/leaderboard", response_model=LeaderboardEntry)
