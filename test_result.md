@@ -153,11 +153,14 @@ backend:
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: NA
         agent: "main"
         comment: "PUT /api/leaderboard/{id} updates entry - needs testing"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: PUT /api/leaderboard/{id} working correctly. Updates entries with partial data, recalculates monthly rank automatically, and returns updated entry. Tested with realistic data updates."
 
   - task: "AI Chat API"
     implemented: true
